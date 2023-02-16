@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public static class Main
 {
-
     public const string GameSettings = "GameSettings";
     [RuntimeInitializeOnLoadMethod]
     public static void FirstEntryPoint()

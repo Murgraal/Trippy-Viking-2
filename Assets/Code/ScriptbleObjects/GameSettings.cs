@@ -6,11 +6,19 @@ namespace Code
     public class GameSettings : ScriptableObject
     {
         public string WelcomeMessage;
-        public float[] startSpeeds = new[]
+        public int pointPerPickup;
+        public float[] StartSpeeds = new[]
         {
             3f,
             4f,
             5f,
+        };
+
+        public int[] StartProjectiles = new[]
+        {
+            5,
+            4,
+            3,
         };
     }
 }

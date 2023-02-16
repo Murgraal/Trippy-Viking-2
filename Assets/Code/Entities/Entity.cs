@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Code
@@ -9,6 +10,11 @@ namespace Code
         {
             GameData.UpdateData(GetInstanceID(),data);
             UpdateBehaviour();
+        }
+
+        protected void Despawn()
+        {
+            
         }
 
         protected abstract void UpdateBehaviour();

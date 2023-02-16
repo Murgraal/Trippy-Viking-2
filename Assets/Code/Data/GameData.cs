@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Code
 {
@@ -6,19 +7,32 @@ namespace Code
     {
         public static GameSettings Settings;
         public static Dictionary<int,LocationData> LocationDatas;
+        public static Dictionary<int, GameObject> Entities;
         public static float PlayerScore;
         public static float GlobalMoveSpeed;
         public static int Difficulty;
-    
+        public static int ProjectileCount;
+        public static PlayerWeaponType PlayerWeaponType;
+        public static GamePhase GamePhase;
+
+
+        public static void AddScore()
+        {
+            
+        }
+
         public static void Reset()
         {
             LocationDatas = new Dictionary<int, LocationData>();
             PlayerScore = 0f;
-        
-            if (Settings.startSpeeds.Length < Difficulty) return;
-        
-            GlobalMoveSpeed = Settings.startSpeeds[Difficulty];
+            PlayerWeaponType = PlayerWeaponType.Default;
+            GamePhase = GamePhase.Regular;
 
+            if (Difficulty > Settings.StartSpeeds.Length) return;
+            if (Difficulty > Settings.StartProjectiles.Length) return;
+            
+            GlobalMoveSpeed = Settings.StartSpeeds[Difficulty];
+            ProjectileCount = Settings.StartProjectiles[Difficulty];
         }
     
         public static void UpdateData(int instanceId, LocationData data)
@@ -34,5 +48,12 @@ namespace Code
         {
             return LocationDatas[guid];
         }
+    }
+
+    public enum PlayerWeaponType
+    {
+        Default,
+        Spread,
+        Penetrator,
     }
 }
