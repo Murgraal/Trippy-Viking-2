@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Code
 {
@@ -11,6 +12,8 @@ namespace Code
     {
         public static event Action PhaseChanged;
         public static event Action TimerUpdated;
+
+        
         
         private void Start()
         {
@@ -18,6 +21,7 @@ namespace Code
             PhaseChanged?.Invoke();
             Debug.Log("Game is running");
             StartCoroutine(TickTimer());
+            
         }
 
         private WaitForSeconds TickRate = new WaitForSeconds(0.5f);

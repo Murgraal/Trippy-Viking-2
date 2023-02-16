@@ -15,10 +15,18 @@ namespace Code
         private float speed;
 
         private List<Vector2> startPositions = new List<Vector2>();
+
+        public void SetOrderInLayerForAll(int order)
+        {
+            foreach (var rend in Renderers)
+            {
+                rend.sortingOrder = order;
+            }
+        }
         
         private void Start()
         {
-            Renderers = transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>().ToList();
+            Renderers = GetComponentsInChildren<SpriteRenderer>().ToList();
             sizeX = Renderers[0].sprite.bounds.size.x;
             for (int i = 0; i < Renderers.Count; i++)
             {
