@@ -7,6 +7,8 @@ namespace Code
     {
         public string WelcomeMessage;
         public int pointPerPickup;
+        public int RegularPhaseLength;
+        public int CloudPhaseLength;
         public float[] StartSpeeds = new[]
         {
             3f,

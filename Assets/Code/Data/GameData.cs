@@ -14,8 +14,31 @@ namespace Code
         public static int ProjectileCount;
         public static PlayerWeaponType PlayerWeaponType;
         public static GamePhase GamePhase;
+        public static GamePhase NextPhase;
+        public static float GameTimer;
+        public static float TimeSpentInCurrentPhase;
+        public static int EnemiesOnScreen;
 
 
+        public static void GoToTransitionPhase()
+        {
+            if (GamePhase == GamePhase.Cloud)
+            {
+                NextPhase = GamePhase.Regular;
+            }
+            else if (GamePhase == GamePhase.Regular)
+            {
+                NextPhase = GamePhase.Cloud;
+            }
+            
+            GamePhase = GamePhase.Transition;
+        }
+        public static void GoToNextPhase()
+        {
+            TimeSpentInCurrentPhase = 0f;
+            GamePhase = NextPhase;
+        }
+        
         public static void AddScore()
         {
             
@@ -25,6 +48,7 @@ namespace Code
         {
             LocationDatas = new Dictionary<int, LocationData>();
             PlayerScore = 0f;
+            GameTimer = 0f;
             PlayerWeaponType = PlayerWeaponType.Default;
             GamePhase = GamePhase.Regular;
 
@@ -55,5 +79,6 @@ namespace Code
         Default,
         Spread,
         Penetrator,
+        Laser,
     }
 }

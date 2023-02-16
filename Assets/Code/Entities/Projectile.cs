@@ -26,6 +26,11 @@ namespace Code
             GameData.UpdateData(GetInstanceID(),data);
         }
 
+        public override void Despawn()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void UpdateBehaviour()
         {
             throw new NotImplementedException();

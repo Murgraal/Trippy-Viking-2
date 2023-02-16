@@ -17,16 +17,27 @@ namespace Code
         private void Start()
         {
             rigid.velocity = Vector2.left * GameData.GlobalMoveSpeed;
+            GameData.EnemiesOnScreen++;
         }
 
         private void Update()
         {
             GameData.UpdateData(GetInstanceID(),data);
+            
+            if (!OnScreen())
+            {
+                GameManager.DespawnEntity(GetInstanceID());
+            }
+        }
+
+        public override void Despawn()
+        {
+            GameData.EnemiesOnScreen--;
         }
 
         protected override void UpdateBehaviour()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

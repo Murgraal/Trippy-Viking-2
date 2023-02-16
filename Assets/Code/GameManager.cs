@@ -1,13 +1,32 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Code
 {
     public class GameManager : MonoBehaviour
     {
+        public static event Action<GamePhase> OnPhaseChanged;
+        public static event Action OnTimerUpdated;
+        
         private void Start()
         {
             GameData.Reset();
+            OnPhaseChanged?.Invoke(GameData.GamePhase);
             Debug.Log("Game is running");
+            StartCoroutine(TickTimer());
+        }
+
+        private WaitForSeconds TickRate = new WaitForSeconds(0.5f);
+
+        private IEnumerator TickTimer()
+        {
+            OnTimerUpdated?.Invoke();
+            while (true)
+            {
+                yield return TickRate;
+                OnTimerUpdated?.Invoke(); 
+            }
         }
 
         public static void SpawnEntity(Entity prefab, Vector2 position,Quaternion rotation, Transform parent)
@@ -50,6 +69,9 @@ namespace Code
     
         public void Update()
         {
+            GameData.GameTimer += Time.deltaTime;
+            GameData.TimeSpentInCurrentPhase += Time.deltaTime;
+            
             switch (GameData.GamePhase)
             {
                 case GamePhase.Regular:
@@ -61,38 +83,42 @@ namespace Code
                 case GamePhase.Cloud:
                     CloudPhase();
                     break;
-                case GamePhase.Laser:
-                    LaserPhase();
-                    break;
             }
         }
 
         public void RegularPhase()
         {
-            
+            if (GameData.TimeSpentInCurrentPhase > GameData.Settings.RegularPhaseLength)
+            {
+                GameData.GoToTransitionPhase();
+                OnPhaseChanged?.Invoke(GameData.GamePhase);
+            }
         }
 
         public void TransitionPhase()
         {
-            
+            if (GameData.EnemiesOnScreen <= 0)
+            {
+                GameData.GoToNextPhase();
+                OnPhaseChanged?.Invoke(GameData.GamePhase);
+            }
         }
 
         public void CloudPhase()
         {
-            
+            if (GameData.TimeSpentInCurrentPhase > GameData.Settings.CloudPhaseLength)
+            {
+                GameData.GoToTransitionPhase();
+                OnPhaseChanged?.Invoke(GameData.GamePhase);
+            }
         }
-
-        public void LaserPhase()
-        {
-            
-        }
+        
     }
     
     public enum GamePhase
     {
-        Regular,
-        Transition,
-        Cloud,
-        Laser
+        Regular = 0,
+        Transition = 1,
+        Cloud = 2,
     }
 }

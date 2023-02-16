@@ -34,6 +34,11 @@ namespace Code
             yield return null;
         }
 
+        public override void Despawn()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void UpdateBehaviour()
         {
             throw new NotImplementedException();
