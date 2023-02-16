@@ -21,14 +21,14 @@ public class UI : MonoBehaviour
     
     private void OnEnable()
     {
-        GameManager.OnPhaseChanged += UpdatePhaseText;
-        GameManager.OnTimerUpdated += UpdateTimerTexts;
+        GameManager.PhaseChanged += UpdatePhaseText;
+        GameManager.TimerUpdated += UpdateTimerTexts;
     }
 
     private void OnDisable()
     {
-        GameManager.OnPhaseChanged -= UpdatePhaseText;
-        GameManager.OnTimerUpdated -= UpdateTimerTexts;
+        GameManager.PhaseChanged -= UpdatePhaseText;
+        GameManager.TimerUpdated -= UpdateTimerTexts;
     }
 
     private void UpdateTimerTexts()

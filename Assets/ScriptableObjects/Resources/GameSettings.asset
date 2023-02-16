@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   WelcomeMessage: Welcome to Trippy Viking Remake
-  pointPerPickup: 0
-  RegularPhaseLength: 2
-  CloudPhaseLength: 1
-  StartSpeeds:
-  - 3
-  - 4
-  - 5
-  StartProjectiles: 050000000400000003000000
+  DifficultyDatas:
+  - PointPerPickup: 1
+    RegularPhaseLength: 2
+    CloudPhaseLength: 2
+    AsteroidPhaseLength: 2
+    AsteroidInterval: 2
+    StartSpeed: 0
+    StartProjectiles: 3
+    StartLaneCount: 3

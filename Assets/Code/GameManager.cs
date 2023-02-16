@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,13 +9,13 @@ namespace Code
 {
     public class GameManager : MonoBehaviour
     {
-        public static event Action OnPhaseChanged;
-        public static event Action OnTimerUpdated;
+        public static event Action PhaseChanged;
+        public static event Action TimerUpdated;
         
         private void Start()
         {
             GameData.Reset();
-            OnPhaseChanged?.Invoke();
+            PhaseChanged?.Invoke();
             Debug.Log("Game is running");
             StartCoroutine(TickTimer());
         }
@@ -22,11 +24,11 @@ namespace Code
 
         private IEnumerator TickTimer()
         {
-            OnTimerUpdated?.Invoke();
+            TimerUpdated?.Invoke();
             while (true)
             {
                 yield return TickRate;
-                OnTimerUpdated?.Invoke(); 
+                TimerUpdated?.Invoke(); 
             }
         }
 
@@ -96,7 +98,7 @@ namespace Code
             {
                 GameData.GoToTransitionPhase();
                 GameData.RegularPhasesCounter++;
-                OnPhaseChanged?.Invoke();
+                PhaseChanged?.Invoke();
             }
         }
 
@@ -105,7 +107,7 @@ namespace Code
             if (GameData.EnemiesOnScreen <= 0)
             {
                 GameData.GoToNextPhase();
-                OnPhaseChanged?.Invoke();
+                PhaseChanged?.Invoke();
             }
         }
 
@@ -114,7 +116,7 @@ namespace Code
             if (GameData.TimeSpentInCurrentPhase > GameData.Settings.CloudPhaseLength)
             {
                 GameData.GoToTransitionPhase();
-                OnPhaseChanged?.Invoke();
+                PhaseChanged?.Invoke();
             }
         }
 
@@ -123,17 +125,26 @@ namespace Code
             if (GameData.TimeSpentInCurrentPhase > GameData.Settings.AsteroidPhaseLength)
             {
                 GameData.GoToTransitionPhase();
-                OnPhaseChanged?.Invoke();
+                PhaseChanged?.Invoke();
             }
         }
         
     }
-    
+
     public enum GamePhase
     {
         Regular = 0,
         Transition = 1,
         Cloud = 2,
         Asteroid = 3,
+    }
+
+    public static class CollectionExt
+    {
+        public static void SwapValuesAtIndex<T>(this List<T> collection, int a, int b)
+        {
+            collection[a] = collection[b];
+            collection[b] = collection[a];
+        }
     }
 }
