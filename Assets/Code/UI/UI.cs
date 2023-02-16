@@ -15,6 +15,9 @@ public class UI : MonoBehaviour
     
     [SerializeField]
     private TextMeshProUGUI phaseTimerText;
+
+    [SerializeField]
+    private TextMeshProUGUI phaseCounter;
     
     private void OnEnable()
     {
@@ -34,8 +37,9 @@ public class UI : MonoBehaviour
         phaseTimerText.text = GameData.TimeSpentInCurrentPhase.ToString("0");
     }
 
-    private void UpdatePhaseText(GamePhase phase)
+    private void UpdatePhaseText()
     {
-        phaseText.text = phase.ToString();
+        phaseText.text = GameData.GamePhase.ToString();
+        phaseCounter.text = GameData.RegularPhasesCounter.ToString();
     }
 }

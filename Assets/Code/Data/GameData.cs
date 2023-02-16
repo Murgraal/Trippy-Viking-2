@@ -5,7 +5,8 @@ namespace Code
 {
     public static class GameData
     {
-        public static GameSettings Settings;
+        public static GameSettings GameSettings;
+        public static DifficultyData Settings => GameSettings.DifficultyDatas[Difficulty];
         public static Dictionary<int,LocationData> LocationDatas;
         public static Dictionary<int, GameObject> Entities;
         public static float PlayerScore;
@@ -18,13 +19,46 @@ namespace Code
         public static float GameTimer;
         public static float TimeSpentInCurrentPhase;
         public static int EnemiesOnScreen;
+        public static int LaneCount;
+        public static Vector2[] SpawnPositions;
+        public static int PhaseCount;
+        public static int RegularPhasesCounter;
 
 
+        public static void AddLane()
+        {
+            LaneCount++;
+            CalculateSpawnPositions();
+        }
+        
+        private static void CalculateSpawnPositions()
+        {
+            SpawnPositions = new Vector2[LaneCount];
+            var fragment = Screen.height / LaneCount;
+            for (int i = 0; i < LaneCount; i++)
+            {
+                SpawnPositions[i] = new Vector2(Screen.width + 5f, fragment * i);
+            }
+        }
+        
         public static void GoToTransitionPhase()
         {
+            
+            if (GamePhase == GamePhase.Asteroid)
+            {
+                NextPhase = GamePhase.Cloud;
+            }
             if (GamePhase == GamePhase.Cloud)
             {
-                NextPhase = GamePhase.Regular;
+                if (RegularPhasesCounter != 0 && RegularPhasesCounter % Settings.AsteroidInterval == 0)
+                {
+                    RegularPhasesCounter = 0;
+                    NextPhase = GamePhase.Asteroid;
+                }
+                else
+                {
+                    NextPhase = GamePhase.Regular;
+                }
             }
             else if (GamePhase == GamePhase.Regular)
             {
@@ -37,6 +71,7 @@ namespace Code
         {
             TimeSpentInCurrentPhase = 0f;
             GamePhase = NextPhase;
+            PhaseCount++;
         }
         
         public static void AddScore()
@@ -51,12 +86,14 @@ namespace Code
             GameTimer = 0f;
             PlayerWeaponType = PlayerWeaponType.Default;
             GamePhase = GamePhase.Regular;
+            EnemiesOnScreen = 0;
 
-            if (Difficulty > Settings.StartSpeeds.Length) return;
-            if (Difficulty > Settings.StartProjectiles.Length) return;
+            if (Difficulty > GameSettings.DifficultyDatas.Count) return;
             
-            GlobalMoveSpeed = Settings.StartSpeeds[Difficulty];
-            ProjectileCount = Settings.StartProjectiles[Difficulty];
+            GlobalMoveSpeed = Settings.StartSpeed;
+            ProjectileCount = Settings.StartProjectiles;
+            LaneCount = Settings.StartLaneCount;
+            CalculateSpawnPositions();
         }
     
         public static void UpdateData(int instanceId, LocationData data)

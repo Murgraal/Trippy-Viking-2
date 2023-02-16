@@ -1,18 +1,19 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code
 {
     public class GameManager : MonoBehaviour
     {
-        public static event Action<GamePhase> OnPhaseChanged;
+        public static event Action OnPhaseChanged;
         public static event Action OnTimerUpdated;
         
         private void Start()
         {
             GameData.Reset();
-            OnPhaseChanged?.Invoke(GameData.GamePhase);
+            OnPhaseChanged?.Invoke();
             Debug.Log("Game is running");
             StartCoroutine(TickTimer());
         }
@@ -56,7 +57,7 @@ namespace Code
                     GameData.ProjectileCount++;
                     break;
                 case PickupType.MiniBubble:
-                    GameData.PlayerScore += GameData.Settings.pointPerPickup;
+                    GameData.PlayerScore += GameData.Settings.PointPerPickup;
                     break;
             }
         }
@@ -83,6 +84,9 @@ namespace Code
                 case GamePhase.Cloud:
                     CloudPhase();
                     break;
+                case GamePhase.Asteroid:
+                    AsteroidPhase();
+                    break;
             }
         }
 
@@ -91,7 +95,8 @@ namespace Code
             if (GameData.TimeSpentInCurrentPhase > GameData.Settings.RegularPhaseLength)
             {
                 GameData.GoToTransitionPhase();
-                OnPhaseChanged?.Invoke(GameData.GamePhase);
+                GameData.RegularPhasesCounter++;
+                OnPhaseChanged?.Invoke();
             }
         }
 
@@ -100,7 +105,7 @@ namespace Code
             if (GameData.EnemiesOnScreen <= 0)
             {
                 GameData.GoToNextPhase();
-                OnPhaseChanged?.Invoke(GameData.GamePhase);
+                OnPhaseChanged?.Invoke();
             }
         }
 
@@ -109,7 +114,16 @@ namespace Code
             if (GameData.TimeSpentInCurrentPhase > GameData.Settings.CloudPhaseLength)
             {
                 GameData.GoToTransitionPhase();
-                OnPhaseChanged?.Invoke(GameData.GamePhase);
+                OnPhaseChanged?.Invoke();
+            }
+        }
+
+        public void AsteroidPhase()
+        {
+            if (GameData.TimeSpentInCurrentPhase > GameData.Settings.AsteroidPhaseLength)
+            {
+                GameData.GoToTransitionPhase();
+                OnPhaseChanged?.Invoke();
             }
         }
         
@@ -120,5 +134,6 @@ namespace Code
         Regular = 0,
         Transition = 1,
         Cloud = 2,
+        Asteroid = 3,
     }
 }

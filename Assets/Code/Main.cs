@@ -11,8 +11,8 @@ public static class Main
     [RuntimeInitializeOnLoadMethod]
     public static void FirstEntryPoint()
     {
-        GameData.Settings = Resources.Load<GameSettings>(GameSettings);
-        Debug.Log(GameData.Settings.WelcomeMessage);
+        GameData.GameSettings = Resources.Load<GameSettings>(GameSettings);
+        Debug.Log(GameData.GameSettings.WelcomeMessage);
         GoToMenu();
     }
 

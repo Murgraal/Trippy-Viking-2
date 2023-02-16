@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Code
@@ -6,21 +8,19 @@ namespace Code
     public class GameSettings : ScriptableObject
     {
         public string WelcomeMessage;
-        public int pointPerPickup;
+        public List<DifficultyData> DifficultyDatas = new List<DifficultyData>();
+    }
+    
+    [Serializable]
+    public struct DifficultyData
+    {
+        public int PointPerPickup;
         public int RegularPhaseLength;
         public int CloudPhaseLength;
-        public float[] StartSpeeds = new[]
-        {
-            3f,
-            4f,
-            5f,
-        };
-
-        public int[] StartProjectiles = new[]
-        {
-            5,
-            4,
-            3,
-        };
+        public int AsteroidPhaseLength;
+        public int AsteroidInterval;
+        public float StartSpeed;
+        public int StartProjectiles;
+        public int StartLaneCount;
     }
 }
