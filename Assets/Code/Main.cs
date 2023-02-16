@@ -5,11 +5,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public static class Main 
+public static class Main
 {
+
+    public const string GameSettings = "GameSettings";
     [RuntimeInitializeOnLoadMethod]
     public static void FirstEntryPoint()
     {
+        GameData.Settings = Resources.Load<GameSettings>(GameSettings);
+        Debug.Log(GameData.Settings.WelcomeMessage);
         GoToMenu();
     }
 
