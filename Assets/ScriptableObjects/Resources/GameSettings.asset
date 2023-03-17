@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   WelcomeMessage: Welcome to Trippy Viking Remake
+  BaseFlySpeed: 10
   DifficultyDatas:
   - PointPerPickup: 1
     RegularPhaseLength: 5
