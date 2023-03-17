@@ -39,7 +39,7 @@ public class UI : MonoBehaviour
 
     private void UpdatePhaseText()
     {
-        phaseText.text = GameData.GamePhase.ToString();
+        phaseText.text = GameData.CurrentGamePhase.ToString();
         phaseCounter.text = GameData.RegularPhasesCounter.ToString();
     }
 }

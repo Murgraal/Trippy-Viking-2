@@ -15,10 +15,10 @@ MonoBehaviour:
   WelcomeMessage: Welcome to Trippy Viking Remake
   DifficultyDatas:
   - PointPerPickup: 1
-    RegularPhaseLength: 2
-    CloudPhaseLength: 2
+    RegularPhaseLength: 5
+    CloudPhaseLength: 6
     AsteroidPhaseLength: 2
-    AsteroidInterval: 2
+    AsteroidInterval: 4
     StartSpeed: 0
     StartProjectiles: 3
     StartLaneCount: 3

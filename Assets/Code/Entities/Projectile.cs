@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static Code.GameplayFunctions;
 
 namespace Code
 {
@@ -40,7 +41,7 @@ namespace Code
         {
             if (col.CompareTag("Enemy"))
             {
-                GameManager.OnProjectileHitEnemy(col.GetInstanceID());
+                OnProjectileHitEnemy(col.GetInstanceID());
             }
         }
     }

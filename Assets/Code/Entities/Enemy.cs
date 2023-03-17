@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using static Code.GameplayFunctions;
 
 namespace Code
 {
@@ -19,17 +19,7 @@ namespace Code
             rigid.velocity = Vector2.left * GameData.GlobalMoveSpeed;
             GameData.EnemiesOnScreen++;
         }
-
-        private void Update()
-        {
-            GameData.UpdateData(GetInstanceID(),data);
-            
-            if (!OnScreen())
-            {
-                GameManager.DespawnEntity(GetInstanceID());
-            }
-        }
-
+        
         public override void Despawn()
         {
             GameData.EnemiesOnScreen--;
@@ -37,7 +27,12 @@ namespace Code
 
         protected override void UpdateBehaviour()
         {
+            GameData.UpdateData(GetInstanceID(),data);
             
+            if (!OnScreen())
+            {
+                DespawnEntity(GetInstanceID());
+            }
         }
     }
 }

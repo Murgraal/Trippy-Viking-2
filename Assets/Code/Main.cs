@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Code;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
+using static Code.GameplayFunctions;
 
 public static class Main
 {
@@ -14,22 +13,5 @@ public static class Main
         GameData.GameSettings = Resources.Load<GameSettings>(GameSettings);
         Debug.Log(GameData.GameSettings.WelcomeMessage);
         GoToMenu();
-    }
-
-    public static void StartGame(int difficulty)
-    {
-        GameData.Reset();
-        GameData.Difficulty = difficulty;   
-        SceneManager.LoadScene("Gameplay");
-    }
-
-    public static void EndGame()
-    {
-        SceneManager.LoadScene("ScoreScreen");
-    }
-
-    public static void GoToMenu()
-    {
-        SceneManager.LoadScene("Menu");
     }
 }

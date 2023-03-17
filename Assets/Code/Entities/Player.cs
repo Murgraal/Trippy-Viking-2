@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Code.PlayerFunctions;
+using static Code.GameplayFunctions;
 
 namespace Code
 {
@@ -40,7 +42,7 @@ namespace Code
     
         private IEnumerator Die()
         {
-            Main.EndGame();
+            EndGame();
             yield return null;
         }
 
@@ -50,6 +52,14 @@ namespace Code
         }
 
         protected override void UpdateBehaviour()
+        {
+            HoldPlayerInScreen(transform,bounds,downPos,upPos,rigid);
+        }
+    }
+
+    public static class PlayerFunctions
+    {
+        public static void HoldPlayerInScreen(Transform transform, Vector2 bounds, Vector2 downPos, Vector2 upPos, Rigidbody2D rigid)
         {
             if (transform.position.y + bounds.y < downPos.y)
             {
@@ -63,4 +73,5 @@ namespace Code
             }
         }
     }
+    
 }

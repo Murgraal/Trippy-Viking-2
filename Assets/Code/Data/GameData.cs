@@ -14,7 +14,7 @@ namespace Code
         public static int Difficulty;
         public static int ProjectileCount;
         public static PlayerWeaponType PlayerWeaponType;
-        public static GamePhase GamePhase;
+        public static GamePhase CurrentGamePhase;
         public static GamePhase NextPhase;
         public static float GameTimer;
         public static float TimeSpentInCurrentPhase;
@@ -23,69 +23,34 @@ namespace Code
         public static Vector2[] SpawnPositions;
         public static int PhaseCount;
         public static int RegularPhasesCounter;
+        public static readonly WaitForSeconds TickRate = new WaitForSeconds(0.5f);
 
 
         public static void AddLane()
         {
             LaneCount++;
-            CalculateSpawnPositions();
+            SpawnPositions = CalculateSpawnPositions();
         }
         
-        private static void CalculateSpawnPositions()
+        public static Vector2[] CalculateSpawnPositions()
         {
-            SpawnPositions = new Vector2[LaneCount];
+            var result = new Vector2[LaneCount];
             var fragment = Screen.height / LaneCount;
             for (int i = 0; i < LaneCount; i++)
             {
                 SpawnPositions[i] = new Vector2(Screen.width + 5f, fragment * i);
             }
-        }
-        
-        public static void GoToTransitionPhase()
-        {
-            
-            if (GamePhase == GamePhase.Asteroid)
-            {
-                NextPhase = GamePhase.Cloud;
-            }
-            if (GamePhase == GamePhase.Cloud)
-            {
-                if (RegularPhasesCounter != 0 && RegularPhasesCounter % Settings.AsteroidInterval == 0)
-                {
-                    RegularPhasesCounter = 0;
-                    NextPhase = GamePhase.Asteroid;
-                }
-                else
-                {
-                    NextPhase = GamePhase.Regular;
-                }
-            }
-            else if (GamePhase == GamePhase.Regular)
-            {
-                NextPhase = GamePhase.Cloud;
-            }
-            
-            GamePhase = GamePhase.Transition;
-        }
-        public static void GoToNextPhase()
-        {
-            TimeSpentInCurrentPhase = 0f;
-            GamePhase = NextPhase;
-            PhaseCount++;
-        }
-        
-        public static void AddScore()
-        {
-            
-        }
 
-        public static void Reset()
+            return result;
+        }
+        
+        public static void ResetGameData()
         {
             LocationDatas = new Dictionary<int, LocationData>();
             PlayerScore = 0f;
             GameTimer = 0f;
             PlayerWeaponType = PlayerWeaponType.Default;
-            GamePhase = GamePhase.Regular;
+            CurrentGamePhase = GamePhase.Regular;
             EnemiesOnScreen = 0;
 
             if (Difficulty > GameSettings.DifficultyDatas.Count) return;
