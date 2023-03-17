@@ -13,6 +13,7 @@ namespace Code
         public static float GlobalMoveSpeed;
         public static int Difficulty;
         public static int ProjectileCount;
+        public static bool PlayerIsDead;
         public static PlayerWeaponType PlayerWeaponType;
         public static GamePhase CurrentGamePhase;
         public static GamePhase NextPhase;
@@ -38,7 +39,7 @@ namespace Code
             var fragment = Screen.height / LaneCount;
             for (int i = 0; i < LaneCount; i++)
             {
-                SpawnPositions[i] = new Vector2(Screen.width + 5f, fragment * i);
+                result[i] = new Vector2(Screen.width + 5f, fragment * i);
             }
 
             return result;
@@ -58,7 +59,7 @@ namespace Code
             GlobalMoveSpeed = Settings.StartSpeed;
             ProjectileCount = Settings.StartProjectiles;
             LaneCount = Settings.StartLaneCount;
-            CalculateSpawnPositions();
+            SpawnPositions = CalculateSpawnPositions();
         }
     
         public static void UpdateData(int instanceId, LocationData data)

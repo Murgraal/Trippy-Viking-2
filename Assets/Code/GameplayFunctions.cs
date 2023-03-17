@@ -93,7 +93,8 @@ namespace Code
         public static void StartGame(int difficulty)
         {
             GameData.ResetGameData();
-            GameData.Difficulty = difficulty;   
+            GameData.Difficulty = difficulty;
+            GameData.PlayerIsDead = false;
             SceneManager.LoadScene("Gameplay");
         }
 

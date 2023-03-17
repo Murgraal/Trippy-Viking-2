@@ -14,7 +14,9 @@ namespace Code
         private Vector2 startPos;
         private Vector2 upPos;
         private Vector2 downPos;
-        private Vector2 bounds;
+        private Vector2 size;
+
+        private bool flyPressed;
     
         private void Awake()
         {
@@ -26,7 +28,7 @@ namespace Code
             startPos = transform.position;
             upPos = startPos;
             downPos = startPos;
-            bounds = GetComponent<Collider2D>().bounds.extents;
+            size = GetComponent<Collider2D>().bounds.size;
             
             upPos.y += Camera.main.orthographicSize;
             downPos.y -= Camera.main.orthographicSize;
@@ -39,11 +41,21 @@ namespace Code
                 StartCoroutine(Die());
             }
         }
+        
     
         private IEnumerator Die()
         {
-            EndGame();
+            GameData.PlayerIsDead = true;
+            var deathTimer = 0f;
+            rigid.AddForce(Vector2.up * 10,ForceMode2D.Impulse);
+            while (deathTimer < 3f)
+            {
+                transform.RotateAround(transform.position,transform.up,Time.deltaTime * 90f);
+                deathTimer += Time.deltaTime;
+                yield return null;
+            }
             yield return null;
+            EndGame();
         }
 
         public override void Despawn()
@@ -53,22 +65,39 @@ namespace Code
 
         protected override void UpdateBehaviour()
         {
-            HoldPlayerInScreen(transform,bounds,downPos,upPos,rigid);
+            if (GameData.PlayerIsDead) return;
+            HoldPlayerInScreen(transform,size,downPos,upPos,rigid);
+            flyPressed = Input.GetKey(KeyCode.Space);
+        }
+
+        protected override void FixedUpdateBehaviour()
+        {
+            if (flyPressed)
+            {
+                Fly(rigid,GameData.GameSettings.BaseFlySpeed);
+            }
         }
     }
 
     public static class PlayerFunctions
     {
-        public static void HoldPlayerInScreen(Transform transform, Vector2 bounds, Vector2 downPos, Vector2 upPos, Rigidbody2D rigid)
+        public static void Fly(Rigidbody2D rigid, float speed)
         {
-            if (transform.position.y + bounds.y < downPos.y)
+            rigid.AddForce(Vector2.up * speed);
+        }
+        
+        public static void HoldPlayerInScreen(Transform transform, Vector2 size, Vector2 downPos, Vector2 upPos, Rigidbody2D rigid)
+        {
+            if (transform.position.y  < downPos.y)
             {
                 if (rigid.velocity.y > 0) return;
-                transform.position = upPos;
+                var pos = upPos;
+                transform.position = pos;
             }
-            else if (transform.position.y - bounds.y > upPos.y)
+            else if (transform.position.y > upPos.y)
             {
                 if (rigid.velocity.y < 0) return;
+                var pos = downPos;
                 transform.position = downPos;
             }
         }

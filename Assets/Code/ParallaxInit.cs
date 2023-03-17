@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Code.ParallaxFunctions;
 
 namespace Code
 {
@@ -9,7 +10,8 @@ namespace Code
             var layerCounter = -1;
             foreach (var parallax in GetComponentsInChildren<Parallax>())
             {
-                parallax.SetOrderInLayerForAll(layerCounter);
+                parallax.Init();
+                SetOrderInLayerForAll(layerCounter,parallax.Renderers);
                 layerCounter++;
             }
         }

@@ -19,6 +19,11 @@ namespace Code
             UpdateBehaviour();
         }
 
+        private void FixedUpdate()
+        {
+            FixedUpdateBehaviour();
+        }
+
         protected bool OnScreen()
         {
             var screenPos = currentCam.WorldToScreenPoint(transform.position);
@@ -29,5 +34,10 @@ namespace Code
         public abstract void Despawn();
 
         protected abstract void UpdateBehaviour();
+
+        protected virtual void FixedUpdateBehaviour()
+        {
+            
+        }
     }
 }

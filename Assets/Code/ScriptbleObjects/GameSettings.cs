@@ -8,6 +8,7 @@ namespace Code
     public class GameSettings : ScriptableObject
     {
         public string WelcomeMessage;
+        public float BaseFlySpeed;
         public List<DifficultyData> DifficultyDatas = new List<DifficultyData>();
     }
     
