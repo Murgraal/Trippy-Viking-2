@@ -21,6 +21,11 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        SetupCameraOrtho();
+    }
+
+    public void SetupCameraOrtho()
+    {
         centerCam.transform.position = Camera.main.transform.position;
         var mainCamOrthoZize = Camera.main.orthographicSize;
         
@@ -30,6 +35,19 @@ public class CameraController : MonoBehaviour
         
         lowerCam.transform.position = centerCam.transform.position + (Vector3) Vector2.down * centerCam.orthographicSize * 2;
         upperCam.transform.position = centerCam.transform.position - (Vector3) Vector2.down * centerCam.orthographicSize * 2;
+    }
+
+    public void SetupCameraPerspective()
+    {
+        centerCam.transform.position = Camera.main.transform.position;
+        var mainCamFieldOfView = Camera.main.fieldOfView;
+        
+        lowerCam.fieldOfView = mainCamFieldOfView;
+        upperCam.fieldOfView = mainCamFieldOfView;
+        centerCam.fieldOfView= mainCamFieldOfView;
+        
+        lowerCam.transform.position = centerCam.transform.position + (Vector3) Vector2.down * centerCam.fieldOfView * 2;
+        upperCam.transform.position = centerCam.transform.position - (Vector3) Vector2.down * centerCam.fieldOfView * 2;
     }
     
 }

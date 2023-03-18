@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WelcomeMessage: Welcome to Trippy Viking Remake
   BaseFlySpeed: 10
+  EnemyPrefab: {fileID: 6412969964788423881, guid: 85292c7b5672bcc40b436e66d1ca191d, type: 3}
+  PlayerPrefab: {fileID: 8071430384404884221, guid: 64ebc510e4a334387998a8732c1d4777, type: 3}
   DifficultyDatas:
   - PointPerPickup: 1
     RegularPhaseLength: 5
     CloudPhaseLength: 6
     AsteroidPhaseLength: 2
     AsteroidInterval: 4
-    StartSpeed: 0
+    StartSpeed: 2
     StartProjectiles: 3
+    EnemySpawnInterval: 1
     StartLaneCount: 3

@@ -36,7 +36,7 @@ namespace Code
         
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Enemy"))
+            if (col.CompareTag("Enemy") && !GameData.PlayerIsDead)
             {
                 StartCoroutine(Die());
             }
@@ -47,10 +47,14 @@ namespace Code
         {
             GameData.PlayerIsDead = true;
             var deathTimer = 0f;
-            rigid.AddForce(Vector2.up * 10,ForceMode2D.Impulse);
+
+            var dir = Vector3.zero - transform.position;
+            dir.z = -10;
+            rigid.AddForce(dir * 2,ForceMode2D.Impulse);
             while (deathTimer < 3f)
             {
                 transform.RotateAround(transform.position,transform.up,Time.deltaTime * 90f);
+                transform.RotateAround(transform.position,transform.right,Time.deltaTime * 90f);
                 deathTimer += Time.deltaTime;
                 yield return null;
             }
