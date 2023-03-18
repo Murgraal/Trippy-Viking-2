@@ -79,8 +79,7 @@ namespace Code
     {
         public static void SwapValuesAtIndex<T>(this List<T> collection, int a, int b)
         {
-            collection[a] = collection[b];
-            collection[b] = collection[a];
+            (collection[a], collection[b]) = (collection[b], collection[a]);
         }
     }
 }

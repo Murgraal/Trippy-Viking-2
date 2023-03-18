@@ -41,6 +41,7 @@ namespace Code
                 SpawnEntity(GameData.GameSettings.EnemyPrefab,spawnPointQueue.Dequeue(),Quaternion.identity,parent);
                 yield return interval;
             }
+            yield return interval;
             onFinished?.Invoke();
             yield return null;
         }
