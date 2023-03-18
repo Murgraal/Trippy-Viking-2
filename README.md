@@ -8,7 +8,7 @@ In this version i want to make the game more user friendly on the maneuverabilit
 I have been pondering on some arcitechtural problems in game codebases that have occured to me while working on multiple projects and trying to tackle them here.
 Decided this would be a good project to test out how those ideas would work in a project that becomes a full game and gets released. 
 
-### Based on my current understanding the two key problems you need to tackle in game arcitechture is: 
+### Based on my current understanding the two key problems you need to tackle in game code base arcitechture is: 
 
 1. The game codebase need to be able to adjust and change as fast as the design changes. 
 2. Everything needs to be able to know about any state of the game world anytime, without impairing performance too much. 
