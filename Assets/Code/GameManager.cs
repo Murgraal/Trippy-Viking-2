@@ -9,14 +9,39 @@ namespace Code
     {
         public static event Action PhaseChanged;
         public static event Action TimerUpdated;
-        
+        public static event Action EnemyWaveSpawnFinished;
+
+        public Transform EnemyParent;
+
+        private void OnEnable()
+        {
+            EnemyWaveSpawnFinished += SpawnAnotherSetOfEnemies;
+        }
+
+        private void OnDisable()
+        {
+            EnemyWaveSpawnFinished -= SpawnAnotherSetOfEnemies;
+        }
+
         private void Start()
         { 
             GameData.ResetGameData();
             PhaseChanged?.Invoke();
             Debug.Log("Game is running");
             StartCoroutine(TickTimer(TimerUpdated));
-            
+            EnemyParent = new GameObject("EnemyParent").transform;
+            SpawnAnotherSetOfEnemies();
+        }
+
+        public void SpawnAnotherSetOfEnemies()
+        {
+            if (GameData.CurrentGamePhase == GamePhase.Regular || GameData.CurrentGamePhase == GamePhase.Asteroid)
+            {
+                var queue = new Queue<Vector2>(GetEnemySpawnPositions(Camera.main, Camera.main.pixelWidth + 10f, GameData.LaneCount)
+                    .FischerYatesShuffle());
+                StartCoroutine(SpawnSetOfEnemies(queue, new WaitForSeconds(GameData.CurrentDifficultyData.EnemySpawnInterval), EnemyParent,
+                    EnemyWaveSpawnFinished));
+            }
         }
         
         public void Update()

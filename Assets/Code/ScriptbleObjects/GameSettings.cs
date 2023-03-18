@@ -9,6 +9,8 @@ namespace Code
     {
         public string WelcomeMessage;
         public float BaseFlySpeed;
+        public Enemy EnemyPrefab;
+        public Player PlayerPrefab;
         public List<DifficultyData> DifficultyDatas = new List<DifficultyData>();
     }
     
@@ -22,6 +24,7 @@ namespace Code
         public int AsteroidInterval;
         public float StartSpeed;
         public int StartProjectiles;
+        public float EnemySpawnInterval;
         public int StartLaneCount;
     }
 }

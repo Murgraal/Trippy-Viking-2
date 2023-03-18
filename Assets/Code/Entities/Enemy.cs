@@ -8,14 +8,11 @@ namespace Code
     public class Enemy : Entity
     {
         private Rigidbody2D rigid;
-    
-        private void Awake()
-        {
-            rigid = GetComponent<Rigidbody2D>();
-        }
-
+        private bool justSpawned = true;
+        
         private void Start()
         {
+            rigid = GetComponent<Rigidbody2D>();
             rigid.velocity = Vector2.left * GameData.GlobalMoveSpeed;
             GameData.EnemiesOnScreen++;
         }
@@ -27,9 +24,11 @@ namespace Code
 
         protected override void UpdateBehaviour()
         {
-            GameData.UpdateData(GetInstanceID(),data);
-            
-            if (!OnScreen())
+            if (OnScreen() && justSpawned)
+            {
+                justSpawned = false;
+            }
+            if (!OnScreen() && !justSpawned)
             {
                 DespawnEntity(GetInstanceID());
             }

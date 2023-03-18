@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Code
 {
     public static class GameplayFunctions
     {
+        
         public static IEnumerator TickTimer(Action timerUpdated)
         {
             timerUpdated?.Invoke();
@@ -29,6 +33,41 @@ namespace Code
                     break;
             }
         }
+
+        public static IEnumerator SpawnSetOfEnemies(Queue<Vector2> spawnPointQueue, WaitForSeconds interval, Transform parent, Action onFinished)
+        {
+            while (spawnPointQueue.Count > 0)
+            {
+                SpawnEntity(GameData.GameSettings.EnemyPrefab,spawnPointQueue.Dequeue(),Quaternion.identity,parent);
+                yield return interval;
+            }
+            onFinished?.Invoke();
+            yield return null;
+        }
+
+        public static List<T> FischerYatesShuffle<T>(this List<T> collection)
+        {
+            for (int i = collection.Count - 1; i > 0; i--)
+            {
+                var random = Random.Range(0,i);
+                collection.SwapValuesAtIndex(i,random);
+            }
+            return collection;
+        }
+
+        public static List<Vector2> GetEnemySpawnPositions(Camera cam,float xPos,int laneCount)
+        {
+            var result = new List<Vector2>();
+            var fraction = cam.pixelHeight / laneCount;
+
+            for (int i = 0; i < GameData.LaneCount; i++)
+            {
+                result.Add(cam.ScreenToWorldPoint(new Vector2(xPos,fraction * i)));
+            }
+
+            return result;
+        }
+        
         public static void SpawnEntity(Entity prefab, Vector2 position,Quaternion rotation, Transform parent)
         {
             var go = GameObject.Instantiate(prefab,position,rotation,parent);
@@ -70,6 +109,8 @@ namespace Code
                 phaseChanged?.Invoke();
             }
         }
+        
+        
         
         public static void OnProjectileHitEnemy(int instanceID)
         {

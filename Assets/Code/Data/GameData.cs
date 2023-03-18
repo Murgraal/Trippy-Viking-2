@@ -6,9 +6,11 @@ namespace Code
     public static class GameData
     {
         public static GameSettings GameSettings;
+
+        public static DifficultyData CurrentDifficultyData => GameSettings.DifficultyDatas[Difficulty];
         public static DifficultyData Settings => GameSettings.DifficultyDatas[Difficulty];
-        public static Dictionary<int,LocationData> LocationDatas;
-        public static Dictionary<int, GameObject> Entities;
+        public static Dictionary<int,LocationData> LocationDatas = new Dictionary<int, LocationData>();
+        public static Dictionary<int, GameObject> Entities = new Dictionary<int, GameObject>();
         public static float PlayerScore;
         public static float GlobalMoveSpeed;
         public static int Difficulty;
