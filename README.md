@@ -41,3 +41,7 @@ Instead i see it as i've learned of multiple language features throughout my yea
 
 The code will be relatively messy as i'm working on multiple computers and don't want to waste time on keeping it too tidy for now.
 Once the game is ready and probably somewhere during the process i will do some rounds of cleanup most likely. 
+
+#### Other thoughts
+
+When i have been working with bigger codebases in a more OOP manner, where data is strictly bound to the object that will use that data, it will get relatively difficult to locate that data as the project grows and amount of assets in the project goes up. Having all data in one place makes it very simple to locate that information. Easily finding all settings that drives the games logic, is relatively crucial for not wasting a lot of time on trying to remember where something was located. 
