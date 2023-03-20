@@ -8,6 +8,10 @@ In this version i want to make the game more user friendly on the maneuverabilit
 I have been pondering on some arcitechtural problems in game codebases that have occured to me while working on multiple projects and trying to tackle them here.
 Decided this would be a good project to test out how those ideas would work in a project that becomes a full game and gets released. 
 
+I don't claim that these are my original ideas, or that these would have not been already solved by someone else. It's just that the general discussion regarding game and software arcitechture tends to be more pointing towards ideas that basically contradicts with the 2 problem statements i have. 
+
+I'm not going to take any stance in what is smart to do in other domains of software as my experience and expertise is mainly in the game development / unity c# domain. 
+
 ### Based on my current understanding the two key problems you need to tackle in game code base arcitechture is: 
 
 1. The game codebase need to be able to adjust and change as fast as the design changes. 
